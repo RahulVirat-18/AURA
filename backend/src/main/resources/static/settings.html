@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AURA | Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { 
+            font-family: var(--font-family); 
+            background: linear-gradient(135deg, #FFFDF8 0%, #F6F1E7 100%); 
+            color: var(--text-primary); 
+            padding: var(--spacing-xl); 
+            display: flex; 
+            justify-content: center;
+            margin: 0;
+        }
+        
+        .settings-card { 
+            background: white; 
+            padding: var(--spacing-2xl); 
+            border-radius: var(--radius-lg); 
+            width: 500px; 
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .settings-card h1 { 
+            margin-top: 0; 
+            color: var(--color-primary);
+        }
+        
+        .form-group { 
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .form-group label { 
+            display: block; 
+            margin-bottom: var(--spacing-md); 
+            font-weight: 600; 
+            color: var(--text-muted);
+        }
+        
+        .form-group select, 
+        .form-group input { 
+            width: 100%; 
+            padding: var(--spacing-md); 
+            border-radius: var(--radius-md); 
+            background: white; 
+            border: 1px solid var(--border-color); 
+            color: var(--text-primary); 
+            font-size: 15px; 
+            outline: none; 
+            box-sizing: border-box; 
+            transition: var(--transition-base);
+        }
+        
+        .form-group select:focus, 
+        .form-group input:focus { 
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(122, 30, 58, 0.1);
+        }
+        
+        .form-group button { 
+            background: var(--color-primary); 
+            color: white; 
+            border: none; 
+            padding: var(--spacing-md) var(--spacing-lg); 
+            border-radius: var(--radius-md); 
+            font-weight: 700; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 15px; 
+            margin-top: var(--spacing-lg); 
+            transition: all var(--transition-base); 
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .form-group button:hover { 
+            background: #5f1630; 
+            transform: translateY(-2px); 
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-link { 
+            display: block; 
+            text-align: center; 
+            margin-top: var(--spacing-lg); 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            font-weight: 500; 
+            transition: var(--transition-base);
+        }
+        
+        .back-link:hover { 
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="settings-card">
+    <h1>System Configuration</h1>
+    
+    <div class="form-group">
+        <label>Notification Interval</label>
+        <select id="intervalSelect">
+            <option value="2">Every 2 Minutes</option>
+            <option value="5" selected>Every 5 Minutes (Default)</option>
+            <option value="10">Every 10 Minutes</option>
+            <option value="30">Every 30 Minutes</option>
+            <option value="60">Every 1 Hour</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Risk Threshold (Coming Soon)</label>
+        <input type="text" value="CPU > 70%" disabled style="opacity: 0.6;">
+    </div>
+
+    <button class="form-group" onclick="saveSettings()">Save Configuration</button>
+    <a href="index.html" class="back-link">← Back to Dashboard</a>
+</div>
+
+<script>
+    // Load saved setting on page load
+    const saved = localStorage.getItem('aura_alert_interval');
+    if (saved) {
+        document.getElementById('intervalSelect').value = saved;
+    }
+
+    function saveSettings() {
+        const val = document.getElementById('intervalSelect').value;
+        localStorage.setItem('aura_alert_interval', val);
+        alert("Settings Saved! Updates will apply immediately.");
+        window.location.href = 'index.html'; // Go back home
+    }
+</script>
+</body>
+</html>

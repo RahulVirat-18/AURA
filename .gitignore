@@ -1,0 +1,25 @@
+# --- Python & Environment (Root Level) ---
+env/
+.vscode/
+__pycache__/
+*.log
+*.pyc
+
+# --- Java Backend (Recursive) ---
+# The **/ tells git to look inside subfolders like 'backend/'
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+**/.apt_generated
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings
+**/.springBeans
+**/.sts4-cache
+
+# --- IDEs ---
+.idea/
+*.iws
+*.iml
+*.ipr
+run_local.ps1
