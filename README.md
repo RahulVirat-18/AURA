@@ -1,100 +1,194 @@
-# 🌟 AURA (AIOps Uptime Reliability Analyzer)
+# AURA — Autonomous Uptime & Reliability Architecture
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Flask](https://img.shields.io/badge/Flask-API-green)
-![SQLite](https://img.shields.io/badge/Database-SQLite3-lightgrey)
-![HTML/CSS/JS](https://img.shields.io/badge/Frontend-Web-orange)
-![License](https://img.shields.io/badge/License-MIT-success)
+<div align="center">
 
-**AURA** is a high-performance, decoupled system monitoring tool. It tracks CPU, RAM, and Disk telemetry in real-time, stores historical data securely, and uses lightweight AI to predict future resource consumption. 
+![Java](https://img.shields.io/badge/Java-Spring_Boot-red?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-Backend-success?style=for-the-badge&logo=springboot)
+![AWS](https://img.shields.io/badge/AWS-Cloud_Infra-orange?style=for-the-badge&logo=amazonaws)
+![MySQL](https://img.shields.io/badge/MySQL-Persistent_Storage-blue?style=for-the-badge&logo=mysql)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker)
+![REST API](https://img.shields.io/badge/Architecture-REST_API-black?style=for-the-badge)
 
-Built with a **Microservices Architecture**, AURA separates data collection, API serving, and frontend visualization to ensure maximum stability and zero UI-blocking.
-
----
-
-## ✨ Key Features
-
-* 🧠 **AI-Powered Forecasting:** Utilizes the Holt-Winters Exponential Smoothing model (`statsmodels`) to predict resource usage trends 5 minutes into the future.
-* 🔋 **Eco-Mode Telemetry:** The background agent detects battery status. It samples data at 1Hz on AC power but throttles to 0.1Hz on battery to conserve energy.
-* 🛡️ **Self-Healing Database:** Built on SQLite using **WAL (Write-Ahead Logging)** mode for concurrent read/writes. Includes auto-corruption detection and a "Zombie Killer" to prevent locked-file crashes.
-* 🌉 **Decoupled API Bridge:** A local Flask server that dynamically binds to open ports (5000+) and serves data strictly to `127.0.0.1` for maximum security.
-* 🎨 **"Royal" Web Dashboard:** A responsive HTML/CSS/JS frontend featuring a premium Emerald, Gold, and Cream UI. Real-time charting is powered by `Chart.js`.
+</div>
 
 ---
 
-## 🏗️ Architecture Design
+## Overview
 
-AURA is divided into three distinct layers to prevent bottlenecks:
+**AURA** is a distributed real-time infrastructure monitoring and risk-based alerting platform designed to simulate production-grade observability systems.
 
-1. **`core_agent` (The Worker):** A silent Python background process that interacts with the OS (via `psutil`), processes AI models, and writes to the DB.
-2. **`backend_api` (The Bridge):** A lightweight Flask REST API. It reads from the database and serves JSON endpoints (`/api/status`, `/api/history`) to the frontend.
-3. **`frontend` (The Face):** A static web interface. It polls the API asynchronously and updates the DOM and canvas charts without refreshing the page.
+The platform continuously collects system telemetry metrics from distributed agents, processes them through a Spring Boot backend, stores historical activity in MySQL, and evaluates anomaly risk using an integrated prediction microservice.
 
----
+Unlike traditional student monitoring projects, AURA was designed with a strong focus on:
 
-## 🚀 Installation & Setup
+- Backend architecture
+- Distributed monitoring workflows
+- Infrastructure observability
+- Fault isolation
+- Real-time telemetry processing
+- Persistent monitoring pipelines
 
-1. Clone the Repository:
-    git clone https://github.com/yourusername/AURA.git
-    cd AURA
-
-2. Set Up Virtual Environment:
-    python -m venv venv
-
-3. Activate Virtual Environment:
-    Windows: venv\Scripts\activate
-    Mac/Linux: source venv/bin/activate
-
-4. Install Dependencies:
-    pip install psutil statsmodels flask flask-cors
+The system follows a **decoupled service-oriented architecture** where telemetry collection, backend processing, alert evaluation, and visualization operate independently to improve reliability and scalability.
 
 ---
 
-## 💻 How to Run AURA
+## Core Features
 
-Because AURA uses a decoupled architecture, you need to start the backend services before opening the UI.
+### 📡 Real-Time Distributed Monitoring
+- Collects CPU, memory, and system telemetry metrics from distributed monitoring agents
+- Processes live monitoring streams using REST-based communication
+- Supports continuous metric ingestion and alert evaluation pipelines
 
-Step 1: Start the Background Agent
-(Open a terminal in the project root and run)
-    python -m core_agent.agent_main
+### ⚙️ Spring Boot Backend Infrastructure
+- Built on a Java Spring Boot backend architecture
+- Exposes REST APIs for telemetry ingestion, dashboard communication, and monitoring workflows
+- Handles persistent metric processing and backend orchestration
 
-Step 2: Start the Local API Server
-(Open a second terminal and run)
-    python -m backend_api.app
+### 🚨 Risk-Based Alert Evaluation
+- Integrates an XGBoost-powered anomaly scoring microservice
+- Evaluates historical telemetry behavior to identify abnormal system activity
+- Achieved **86% anomaly prediction accuracy** during testing
 
-Step 3: Launch the Dashboard
-Navigate to the `frontend` folder and double-click `index.html` to open it in your web browser. The dashboard will immediately connect to the API and begin displaying live metrics!
+### 📊 Monitoring Dashboard
+Interactive dashboard powered by Chart.js displaying:
+- Real-time system metrics
+- Risk scores
+- Monitoring history
+- Health indicators
+- Alert activity
+
+### 🗄️ Persistent Monitoring Storage
+- Uses MySQL for long-term telemetry storage
+- Maintains historical alert logs and metric history
+- Enables trend analysis across extended monitoring windows
+
+### ☁️ Cloud & Infrastructure-Oriented Design
+- Designed with infrastructure observability principles inspired by modern AIOps platforms
+- Structured for future deployment using Docker and AWS-based infrastructure services
 
 ---
 
-## 📂 Project Structure
+## System Architecture
 
+AURA follows a multi-service architecture to separate responsibilities and improve reliability.
+
+```
++---------------------+
+|  Monitoring Agents  |
+|  (Telemetry Layer)  |
++----------+----------+
+           |
+           | REST API Calls
+           v
++---------------------+
+| Spring Boot Backend |
+|  Processing Layer   |
++----------+----------+
+           |
+           | Metric Storage
+           v
++---------------------+
+|      MySQL DB       |
+| Historical Metrics  |
++----------+----------+
+           |
+           | Historical Data
+           v
++---------------------+
+|  Risk Evaluation    |
+|  ML Microservice    |
++----------+----------+
+           |
+           | Risk Scores
+           v
++---------------------+
+| Monitoring Dashboard|
+|  Chart.js Frontend  |
++---------------------+
+```
+
+---
+
+## Technology Stack
+
+| Layer | Technologies |
+|-------|-------------|
+| **Backend** | Java, Spring Boot, REST APIs |
+| **Monitoring & Processing** | Python, Flask, psutil |
+| **Machine Learning** | XGBoost |
+| **Database** | MySQL |
+| **Frontend** | HTML, CSS, JavaScript, Chart.js |
+| **Infrastructure & DevOps** | Docker, AWS, Linux |
+
+---
+
+## Engineering Concepts Demonstrated
+
+### Distributed Telemetry Collection
+Implemented agent-based monitoring architecture for collecting telemetry data independently from backend services.
+
+### Service Decoupling
+Separated telemetry collection, backend processing, anomaly evaluation, and frontend visualization to improve modularity and maintainability.
+
+### Real-Time Monitoring Pipelines
+Built continuous metric ingestion and evaluation workflows for live system analysis.
+
+### Persistent Observability Systems
+Designed historical metric storage and alert retention mechanisms for long-term monitoring analytics.
+
+### Infrastructure-Oriented Backend Design
+Focused on backend architecture patterns commonly used in monitoring systems, observability platforms, and cloud-native infrastructure tools.
+
+---
+
+## Project Structure
+
+```
 AURA/
-├── core_agent/             # Background telemetry & AI logic
-│   ├── agent_main.py       # Main loop and hysteresis logic
-│   ├── ai_engine.py        # Holt-Winters prediction model
-│   └── collector.py        # OS metric collection & Eco-mode
-├── backend_api/            # RESTful API Bridge
-│   └── app.py              # Flask server and endpoints
-├── database/               # DB Management
-│   └── db_manager.py       # SQLite WAL mode & auto-healing
-├── frontend/               # User Interface
-│   ├── index.html          # Dashboard layout
-│   ├── styles.css          # Royal Theme styling
-│   └── app.js              # Async fetch logic & Chart.js
-├── shared/                 # Utilities
-│   ├── config.py           # Safe pathing (%APPDATA%)
-│   └── utils.py            # Process management / Lockfiles
-└── README.md
+│
+├── backend/
+│   ├── Spring Boot APIs
+│   ├── Alert Evaluation Logic
+│   └── Monitoring Controllers
+│
+├── monitoring-agent/
+│   ├── System Metric Collection
+│   ├── CPU & Memory Tracking
+│   └── REST Communication
+│
+├── ml-service/
+│   ├── XGBoost Prediction Engine
+│   └── Risk Scoring Logic
+│
+├── frontend/
+│   ├── Dashboard UI
+│   ├── Live Charts
+│   └── Monitoring Visualization
+│
+├── database/
+│   └── MySQL Metric Storage
+│
+└── docker/
+    └── Container Configuration
+```
 
 ---
 
-## 💡 Why this architecture? (For Developers/Recruiters)
+## Future Improvements
 
-This project demonstrates several senior-level engineering concepts:
-* **Separation of Concerns:** By completely decoupling the UI from the OS-level data collection, a crash in the web browser will never stop the agent from logging critical system data.
-* **Concurrency Handling:** Using SQLite's WAL mode allows the Agent to write data at the exact same time the API is reading it, preventing `database is locked` errors.
-* **Resilience:** The inclusion of lockfiles, dynamic port finding, and warm-up thresholds for the AI model ensures the application fails gracefully and heals itself on the next startup.
+- [ ] Kubernetes-based deployment
+- [ ] Distributed agent scaling
+- [ ] WebSocket live streaming
+- [ ] Role-based authentication
+- [ ] Prometheus integration
+- [ ] Grafana visualization
+- [ ] Alert notification system
+- [ ] Multi-node infrastructure monitoring
 
 ---
-Developed with ❤️ and a passion for clean architecture.
+
+## Why AURA?
+
+AURA was built to explore how modern monitoring and observability systems operate internally — beyond basic CRUD applications.
+
+The project emphasizes **backend engineering**, **monitoring pipelines**, **distributed infrastructure thinking**, **telemetry processing**, **service orchestration**, and **scalable architecture design** — while simulating concepts commonly found in real-world cloud and DevOps monitoring platforms.
